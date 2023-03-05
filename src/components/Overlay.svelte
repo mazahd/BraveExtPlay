@@ -17,17 +17,36 @@
 
   import Options from "./Options.svelte"
 
-  let mes = "this is a message from ts "
+  let mes = "🎊 success 🎊"
 
+// chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+//   if (message.searchGoogle) {
+//       mes = "command recieved "
+  // document.addEventListener("selectionchange", function() {
+  // Get the selected text
+  // var selectedText = window.getSelection().toString();
 
-  document.addEventListener("selectionchange", function() {
+    // mes = selectedText
+  // Send the selected text to the background script
+  // chrome.runtime.sendMessage({selectedText: selectedText});
+// });
+//   }
+// });
+
+  document.addEventListener("keyup", function() {
   // Get the selected text
   var selectedText = window.getSelection().toString();
 
-    mes = selectedText
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.greeting == "Hello from the background script!") {
+      mes = "command recieved "
 
   // Send the selected text to the background script
-  chrome.runtime.sendMessage({selectedText: selectedText});
+  // chrome.runtime.sendMessage({selectedText: selectedText});
+      }
+});
+
+
 });
 
 
@@ -43,8 +62,8 @@
     .overlay {
   position: fixed;
   left: 50%;
-  top: 50%;
-  width: calc(100vw - 4em);
+  top: 90%;
+  width: auto;
   max-width: 32em;
   max-height: calc(100vh - 4em);
   overflow: auto;

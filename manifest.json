@@ -1,6 +1,6 @@
 {
-    "name": "svelte-ts-extension-boilerplate",
-    "description": "Boilerplate for Chrome Extension Svelte Typescript project",
+    "name": "selectExt",
+    "description": "Selection Playground",
     "version": "1.0",
     "manifest_version": 3,
     "icons": {
@@ -10,10 +10,10 @@
         "128": "src/assets/icons/get_started128.png"
     },
   "commands": {
-    "run-money" :{
-      "description": "collecting money",
+    "googleSearch" :{
+      "description": "Search Google",
       "suggested_key": {
-        "mac": "Command+MacCtrl+C"
+        "mac": "Command+MacCtrl+G"
       }
     }
 
