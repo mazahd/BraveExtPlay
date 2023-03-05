@@ -41,10 +41,9 @@ const handleKeyDown = async e => {
 
         setTimeout(() => {
           overlay.$destroy();
-        }, 5000);
+        }, 2500);
       }
     });
-    multiSelect = [];
   }
   if (e.key === "o") {
     chrome.runtime.sendMessage({messageType: "insert", data: message}, function(response) {
@@ -55,10 +54,9 @@ const handleKeyDown = async e => {
 
         setTimeout(() => {
           overlay.$destroy();
-        }, 5000);
+        }, 2500);
       }
     });
-    multiSelect = [];
   }
 }
 
@@ -67,6 +65,9 @@ const handleMouseUp = async e => {
   if (e.metaKey){
     const selectedText = getSelectedText();
     multiSelect = [...multiSelect, selectedText]
+  }
+  else if (!e.metaKey){
+    multiSelect = [];
   }
 }
 
