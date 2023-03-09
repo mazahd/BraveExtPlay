@@ -19,6 +19,7 @@ chrome.runtime.onInstalled.addListener(() => {
 const url = 'https://127.0.0.1:27124/active/';
 const accessToken = '330706b3eb6d6c2b3b20ccf932099f9437f224218faaaece43af939c02cc1dda';
 const contentType = 'text/markdown';
+const url2 = 'https://127.0.0.1:27124/vault/WordsandPharses.md';
 
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -30,8 +31,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     const googleImage = `https://www.google.com/search?q=${selectedText}&tbm=isch&source=lnms&sa=X&ved=0ahUKEwjmso2E18T9AhW6SaQEHQIYCP4Q_AUIjwkoAQ&biw=1280&bih=700&dpr=2`;
 
     chrome.tabs.create({ url: searchUrl , active: false });
-    chrome.tabs.create({ url: youtubeUrl  , active: false});
-    chrome.tabs.create({ url: googleImage  , active: false});
+    // chrome.tabs.create({ url: youtubeUrl  , active: false});
+    // chrome.tabs.create({ url: googleImage  , active: false});
 
     sendResponse({success : true})
   }
@@ -55,6 +56,55 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
         sendResponse({success: true})
   }
+    else if (message.messageType === "word"){
+
+    fetch(url2, {
+      method: 'PATCH',
+      headers: {
+        'accept': '*/*',
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': contentType,
+        'Heading': 'Words',
+        'Content-Insertion-Position': 'end',
+        'Heading-Boundary': '::',
+      },
+      body: data.selectedText,
+    })
+      .then(response => {
+        // handle response
+      })
+      .catch(error => {
+        // handle error
+      });
+
+        sendResponse({success: true})
+  }
+
+      else if (message.messageType === "phrase"){
+
+    fetch(url2, {
+      method: 'PATCH',
+      headers: {
+        'accept': '*/*',
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': contentType,
+        'Heading': 'Phrases',
+        'Content-Insertion-Position': 'end',
+        'Heading-Boundary': '::',
+      },
+      body: data.selectedText,
+    })
+      .then(response => {
+        // handle response
+      })
+      .catch(error => {
+        // handle error
+      });
+
+        sendResponse({success: true})
+  }
+
+
 });
 //
 

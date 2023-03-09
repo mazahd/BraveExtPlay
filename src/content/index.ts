@@ -20,6 +20,7 @@ import "./styles.css";
 let multiSelect = []
 
 const handleKeyDown = async e => {
+
   const element = document.activeElement;
   if(element.tagName === "INPUT" || element.tagName === "TEXTAREA")
   return;
@@ -27,6 +28,7 @@ const handleKeyDown = async e => {
     const message = !multiSelect.length
       ? { selectedText: getSelectedText() }
       : { selectedText: multiSelect };
+
 
   if (message.selectedText === "")
   return;
@@ -46,7 +48,39 @@ const handleKeyDown = async e => {
     });
   }
   if (e.key === "o") {
-    chrome.runtime.sendMessage({messageType: "insert", data: message}, function(response) {
+    // message = "m" + message
+    const message2 = { "selectedText": `\n${message.selectedText}` };
+    chrome.runtime.sendMessage({messageType: "insert", data: message2}, function(response) {
+      if (response.success){
+        const overlay = new Overlay({
+          target: document.body
+        });
+
+        setTimeout(() => {
+          overlay.$destroy();
+        }, 2500);
+      }
+    });
+  }
+  if (e.key === "w") {
+    // message = "m" + message
+    // const message2 = { "selectedText": `\n${message.selectedText}` };
+    chrome.runtime.sendMessage({messageType: "word", data: message}, function(response) {
+      if (response.success){
+        const overlay = new Overlay({
+          target: document.body
+        });
+
+        setTimeout(() => {
+          overlay.$destroy();
+        }, 2500);
+      }
+    });
+  }
+  if (e.key === "p") {
+    // message = "m" + message
+    // const message2 = { "selectedText": `\n${message.selectedText}` };
+    chrome.runtime.sendMessage({messageType: "phrase", data: message}, function(response) {
       if (response.success){
         const overlay = new Overlay({
           target: document.body
@@ -60,16 +94,23 @@ const handleKeyDown = async e => {
   }
 }
 
+    // multiSelect = [];
+
 
 const handleMouseUp = async e => {
   if (e.metaKey){
     const selectedText = getSelectedText();
     multiSelect = [...multiSelect, selectedText]
+
   }
-  else if (!e.metaKey){
-    multiSelect = [];
-  }
+  // else if (!e.metaKey){
+  //   multiSelect = [];
+  // }
 }
+
+    // const message = !multiSelect.length
+    //   ? { selectedText: getSelectedText() }
+    //   : { selectedText: multiSelect };
 
 
 // const handleMouseDown = async e => {
