@@ -25,13 +25,14 @@ const handleKeyDown = async e => {
   if(element.tagName === "INPUT" || element.tagName === "TEXTAREA")
   return;
 
-    const message = !multiSelect.length
-      ? { selectedText: getSelectedText() }
-      : { selectedText: multiSelect };
+    // const message = !multiSelect.length
+    //   ? { selectedText: getSelectedText() }
+    //   : { selectedText: multiSelect };
+
+  const message = { selectedText: !multiSelect?.length ? multiSelect : getSelectedText() }
 
 
-  if (message.selectedText === "")
-  return;
+  if (!message.selectedText) return;
 
 
   if (e.key === "a") {
