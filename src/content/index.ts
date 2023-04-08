@@ -1,3 +1,4 @@
+import { create_slot } from "svelte/internal";
 import Overlay from "../components/Overlay.svelte";
 import { storage } from "../storage";
 
@@ -17,6 +18,36 @@ import "./styles.css";
 //
 
 
+const systemPrompt = 'correct and optimize text bellow'
+const userPrompt = 'auto layut : create designs that grow to fill or shrink to fit, and reflow as their contents chanage.'
+
+const OPENAI_API_KEY = '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';
+const url = 'https://api.openai.com/v1/chat/completions';
+const requestBody = {
+  model: 'gpt-3.5-turbo',
+  messages: [{ role: 'system', content: systemPrompt },
+             { role: 'user', content: userPrompt}],
+  temperature: 0.7,
+};
+
+(async () => {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+    const data = await response.json();
+    const messageContent = data.choices[0].message.content;
+    console.log(messageContent);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+})();
+
 let multiSelect = []
 
 const handleKeyDown = async e => {
@@ -29,7 +60,9 @@ const handleKeyDown = async e => {
     //   ? { selectedText: getSelectedText() }
     //   : { selectedText: multiSelect };
 
-  const message = { selectedText: !multiSelect?.length ? multiSelect : getSelectedText() }
+  // const message = { selectedText: !multiSelect?.length ? multiSelect : getSelectedText() }
+
+  const message = { selectedText : getSelectedText() }
 
 
   if (!message.selectedText) return;
@@ -39,7 +72,7 @@ const handleKeyDown = async e => {
     chrome.runtime.sendMessage({messageType: "search" , data: message}, function(response) {
       if (response.success){
         const overlay = new Overlay({
-          target: document.body
+          target: document.body,
         });
 
         setTimeout(() => {

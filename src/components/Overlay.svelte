@@ -15,7 +15,7 @@
 
 <script>
 
-  import Options from "./Options.svelte"
+  // import Options from "./Options.svelte"
 
   let mes = "🎊 success 🎊"
 
@@ -33,28 +33,28 @@
 //   }
 // });
 
-  document.addEventListener("keyup", function() {
+  // document.addEventListener("keyup", function() {
   // Get the selected text
-  var selectedText = window.getSelection().toString();
+  // var selectedText = window.getSelection().toString();
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.greeting == "Hello from the background script!") {
-      mes = "command recieved "
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//   if (request.greeting == "Hello from the background script!") {
+//       mes = "command recieved "
 
   // Send the selected text to the background script
   // chrome.runtime.sendMessage({selectedText: selectedText});
-      }
-});
+//       }
+// });
 
 
-});
+// });
 
 
 </script>
 
 <div class="overlay">
   {mes}
-
+  <slot></slot>
 </div>
 
 
