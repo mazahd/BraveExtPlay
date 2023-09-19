@@ -5,18 +5,24 @@ specifiers:
   '@sveltejs/vite-plugin-svelte': 1.1.0
   '@tsconfig/svelte': 3.0.0
   '@types/chrome': 0.0.200
+  hotkeys-js: ^3.10.2
   svelte: 3.52.0
   svelte-check: 2.9.2
   svelte-preprocess: 4.10.7
   tslib: 2.4.0
+  turndown: ^7.1.2
   typescript: 4.8.4
   vite: 3.2.0
+
+dependencies:
+  turndown: 7.1.2
 
 devDependencies:
   '@crxjs/vite-plugin': 2.0.0-beta.3
   '@sveltejs/vite-plugin-svelte': 1.1.0_svelte@3.52.0+vite@3.2.0
   '@tsconfig/svelte': 3.0.0
   '@types/chrome': 0.0.200
+  hotkeys-js: 3.10.2
   svelte: 3.52.0
   svelte-check: 2.9.2_svelte@3.52.0
   svelte-preprocess: 4.10.7_besnmoibwkhwtentvwuriss7pa
@@ -348,6 +354,10 @@ packages:
       domelementtype: 2.3.0
     dev: true
 
+  /domino/2.1.6:
+    resolution: {integrity: sha512-3VdM/SXBZX2omc9JF9nOPCtDaYQ67BGp5CoLpIQlO2KCAPETs8TcDHacF26jXadGbvUteZzRTeos2fhID5+ucQ==}
+    dev: false
+
   /domutils/3.0.1:
     resolution: {integrity: sha512-z08c1l761iKhDFtfXO04C7kTdPBLi41zwOZl00WS8b5eiaebNpY00HKbztwBq+e3vyqWNwWF3mP9YLUeqIrF+Q==}
     dependencies:
@@ -664,6 +674,10 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+    dev: true
+
+  /hotkeys-js/3.10.2:
+    resolution: {integrity: sha512-Z6vLmJTYzkbZZXlBkhrYB962Q/rZGc/WHQiyEGu9ZZVF7bAeFDjjDa31grWREuw9Ygb4zmlov2bTkPYqj0aFnQ==}
     dev: true
 
   /htmlparser2/8.0.1:
@@ -1105,6 +1119,12 @@ packages:
   /tslib/2.4.0:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: true
+
+  /turndown/7.1.2:
+    resolution: {integrity: sha512-ntI9R7fcUKjqBP6QU8rBK2Ehyt8LAzt3UBT9JR9tgo6GtuKvyUzpayWmeMKJw1DPdXzktvtIT8m2mVXz+bL/Qg==}
+    dependencies:
+      domino: 2.1.6
+    dev: false
 
   /typescript/4.8.4:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}

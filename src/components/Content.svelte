@@ -1,8 +1,7 @@
 <script>
+    import Overlay from "./Overlay.svelte";
 
-
-  
-
+    let money = [];
 const systemPrompt = 'correct and optimize text bellow'
 // const userPrompt = 'auto layut : create designs that grow to fill or shrink to fit, and reflow as their contents chanage.'
 
@@ -22,9 +21,25 @@ const getSelectedText = () => {
     : window.getSelection()?.toString() ?? "";
 };
 
-const handleKeyDown = async e => {
-  if (e.key !== "c") return;
 
+let overlay = false
+
+const handleKeyDown = async e => {
+
+      if (e.key === "s"){
+        const selectedText = getSelectedText();
+        money = [...money, selectedText]
+
+      }
+  if (e.key === "x") {
+    overlay = true
+
+  }
+      if (e.key === 'Escape'){
+        overlay = false
+      }
+
+  if (e.key === 'a'){
   const selectedText = getSelectedText();
   if (!selectedText) return;
 
@@ -56,9 +71,60 @@ const handleKeyDown = async e => {
 } catch (error) {
   console.error('Error fetching data from API:', error);
 }
+}
+
 };
 
 document.addEventListener('keydown', handleKeyDown);
-
+  function init(el){
+    el.focus()
+  }
+    let left = 100;
+	 let top = 100;
+	
+	let moving = false;
+	
+	function onMouseDown() {
+		moving = true;
+	}
+	
+	function onMouseMove(e) {
+		if (moving) {
+			left += e.movementX;
+			top += e.movementY;
+		}
+	}
+	
+	function onMouseUp() {
+		moving = false;
+	}
 
 </script>
+
+<section on:mousedown={onMouseDown} style="left: {left}px; top: {top}px;" class="draggable">
+  money
+</section>
+
+<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
+
+{#if overlay}
+
+  <Overlay> <textarea use:init type="text" bind:value={money}></textarea></Overlay>
+  
+{/if}
+
+
+
+  <style>
+
+  textarea {
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        resize: none;
+      }
+
+  </style>

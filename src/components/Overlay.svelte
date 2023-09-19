@@ -1,69 +1,109 @@
-<!-- <script lang="ts"> -->
-<!--     import { storage } from "src/storage"; -->
-<!--     import { onMount } from "svelte"; -->
-    <!-- import Options from "./Options.svelte"; -->
-
-<!--     let count = 0; -->
-
-<!--     onMount(() => { -->
-<!--         storage.get().then((storage) => (count = storage.count)); -->
-<!--     }); -->
-<!-- </script> -->
-
-
-
-
 <script>
 
-  // import Options from "./Options.svelte"
+  import { createEventDispatcher, onDestroy } from 'svelte';
+  import Draggable from './Draggable.svelte';
 
-  let mes = "🎊 success 🎊"
+  const dispatch = createEventDispatcher();
+  const close = () => dispatch('close');
 
-// chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-//   if (message.searchGoogle) {
-//       mes = "command recieved "
-  // document.addEventListener("selectionchange", function() {
-  // Get the selected text
-  // var selectedText = window.getSelection().toString();
+  // @ts-ignore
+  let modal;
 
-    // mes = selectedText
-  // Send the selected text to the background script
-  // chrome.runtime.sendMessage({selectedText: selectedText});
-// });
-//   }
-// });
+  // @ts-ignore
+  const handle_keydown = e => {
+    if (e.key === 'Escape') {
+      close();
+      return;
+    }
 
-  // document.addEventListener("keyup", function() {
-  // Get the selected text
-  // var selectedText = window.getSelection().toString();
+    if (e.key === 'Tab') {
+      // trap focus
+      // @ts-ignore
+      const nodes = modal.querySelectorAll('*');
+      const tabbable = Array.from(nodes).filter(n => n.tabIndex >= 0);
 
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-//   if (request.greeting == "Hello from the background script!") {
-//       mes = "command recieved "
+      let index = tabbable.indexOf(document.activeElement);
+      if (index === -1 && e.shiftKey) index = 0;
 
-  // Send the selected text to the background script
-  // chrome.runtime.sendMessage({selectedText: selectedText});
-//       }
-// });
+      index += tabbable.length + (e.shiftKey ? -1 : 1);
+      index %= tabbable.length;
 
+      tabbable[index].focus();
+      e.preventDefault();
+    }
+  };
 
-// });
+  const previously_focused = typeof document !== 'undefined' && document.activeElement;
+
+  if (previously_focused) {
+    onDestroy(() => {
+      // @ts-ignore
+      previously_focused.focus();
+    });
+  }
+  export let left = 20
+    export let top = 20
+
+    let dragging ;
+
+    function start() {
+        dragging = true
+    }
+
+    function stop() {
+        dragging = false
+    }
+
+    function moveComponent( event ) {
+        if ( dragging ) {
+            left = left + event.movementX;
+            top = top + event.movementY;
+        }
+    }
 
 
 </script>
 
-<div class="overlay">
-  {mes}
-  <slot></slot>
+
+<svelte:window on:keydown={handle_keydown}  on:mouseup="{stop}" on:mousemove="{moveComponent}"/>
+
+
+<div class=" modal-bg" on:click={close}> close </div>
+
+
+<div class="float"  role="dialog" aria-modal="true" bind:this={modal} on:mousedown={start}>
+
+
+  <div>
+
+    <slot/>
+
+  </div>
+
+
 </div>
 
 
+
+
+
+
 <style>
-    .overlay {
+
+.modal-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);}
+
+
+.float {
   position: fixed;
   left: 50%;
-  top: 90%;
-  width: auto;
+  top: 50%;
+  width: calc(100vw - 4em);
   max-width: 32em;
   max-height: calc(100vh - 4em);
   overflow: auto;
@@ -71,7 +111,9 @@
   padding: 1em;
   border-radius: 1em;
   background: white;
-    }
-</style>
+}
 
+
+
+</style>
 
